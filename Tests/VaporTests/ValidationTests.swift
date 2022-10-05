@@ -463,8 +463,6 @@ class ValidationTests: XCTestCase {
     }
 
     func testEmail() {
-        assert("tanner@vapor.codes", passes: .email)
-        assert("tanner@vapor.codes", fails: !.email, "is a valid email address")
         assert("tanner@vapor.codestanner@vapor.codes", fails: .email, "is not a valid email address")
         assert("tanner@vapor.codes.", fails: .email, "is not a valid email address")
         assert("tanner@@vapor.codes", fails: .email, "is not a valid email address")
@@ -472,6 +470,20 @@ class ValidationTests: XCTestCase {
         assert("tanner@codes", fails: .email, "is not a valid email address")
         assert("asdf", fails: .email, "is not a valid email address")
         assert("asdf", passes: !.email)
+        
+        //Valid emails
+        assert("tanner@vapor.codes", passes: .email)
+        assert("tanner@vApOr.CoDeS", passes: .email)
+        assert("tanner@Vapor.Codes", passes: .email)
+        assert("tanner@vapor.codes", fails: !.email, "is a valid email address")
+        assert("disposable.style.email.with+symbol@example.com", passes: .email)
+        assert("user.name+tag+sorting@example.com", passes: .email)
+        assert("test/test@test.com", passes: .email)
+        assert("mailhost!username@example.org", passes: .email)
+        assert("postmaster@[123.123.123.123]", passes: .email)
+        
+        //Invalid emails
+        assert("1234567890123456789012345678901234567890123456789012345678901234+x@example.com", fails: .email, "is not a valid email address")
     }
     
     func testEmailWithSpecialCharacters() {
